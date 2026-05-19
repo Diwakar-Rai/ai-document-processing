@@ -10,6 +10,7 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app,db)
 
+
     @app.route("/health")
     def health_check():
         return {"status": "healthy"}, 200
