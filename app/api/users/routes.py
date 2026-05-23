@@ -1,7 +1,7 @@
 from flask import Blueprint, request 
 from app.services.user_service import create_user
 from app.services.auth_service import authenticate_user
-from flask_jwt_extended import (jwt_required, get_jwt_identity)
+from flask_jwt_extended import (jwt_required, get_jwt_identity, create_access_token)
 
 users_bp = Blueprint("users", __name__, url_prefix='/users')
 
@@ -43,3 +43,11 @@ def get_current_user():
     current_user_id = get_jwt_identity()
 
     return {"message": "Protected route accessed", "user_id": current_user_id}, 200
+
+@users_bp.route("/refresh", methods=["POST"])
+@jwt_required(refresh=True)
+def refresh_access_token():
+    current_user_id = get_jwt_identity()
+    new_access_token = create_access_token(identity = current_user_id)
+
+    return {"access_token": new_access_token}, 200
