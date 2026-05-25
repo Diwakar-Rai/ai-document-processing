@@ -17,3 +17,7 @@ class Config:
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=15)
 
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=7)
+
+    UPLOAD_FOLDER = "uploads"
+
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024

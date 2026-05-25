@@ -5,6 +5,7 @@ from app.extensions import db, migrate, jwt
 
 from app.api.health.routes import health_bp
 from app.api.users.routes import users_bp
+from app.api.documents.routes import documents_bp
 
 def create_app():
     app=Flask(__name__)
@@ -16,5 +17,6 @@ def create_app():
 
     app.register_blueprint(health_bp)
     app.register_blueprint(users_bp)
+    app.register_blueprint(documents_bp)
     
     return app
