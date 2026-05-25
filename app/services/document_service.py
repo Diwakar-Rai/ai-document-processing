@@ -5,6 +5,7 @@ from app.extensions import db
 from app.models.document import Document
 
 from app.utils.file_utils import (allowed_file, generate_unique_filename)
+from app.tasks.document_task import process_document_task
 
 def save_documents(file, user_id):
     if file.filename == "":
@@ -21,5 +22,5 @@ def save_documents(file, user_id):
 
     db.session.add(document)
     db.session.commit()
-
+    process_document_task.delay(document.id)
     return document

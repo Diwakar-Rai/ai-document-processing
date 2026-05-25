@@ -19,6 +19,20 @@ services:
       - db
       - redis
 
+  celery-worker:
+    build:
+      context: .
+      dockerfile: docker/flask/Dockerfile
+    container_name: celery-worker 
+    command: celery -A app.tasks.document_tasks worker --loglevel=info
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+
   db:
     image: postgres:16
     container_name: postgres-db
