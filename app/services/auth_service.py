@@ -1,7 +1,9 @@
 from flask_jwt_extended import create_access_token, create_refresh_token
 from app.models.user import User
 from app.utils.security import verify_password
+import logging
 
+logger = logging.getLogger(__name__)
 def authenticate_user(email:str, password:str):
     user = User.query.filter_by(email=email).first()
     if not user:
@@ -14,4 +16,5 @@ def authenticate_user(email:str, password:str):
     access_token = create_access_token(identity=str(user.id))
     refresh_token = create_refresh_token(identity=str(user.id))
 
+    logger.info(f"User authenticated successfully: {email}")
     return {"access_token": access_token,"refresh_tokn": refresh_token, "user": {"id": user.id, "email": user.email}}
